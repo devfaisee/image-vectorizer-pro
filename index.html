@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart PNG/JPG Vectorizer Pro - Verynt Pro</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Navbar Header -->
+    <header class="header">
+      <div class="logo-area">
+        <span class="logo-icon">📐</span>
+        <h1>Verynt <span class="accent-text">VectorPro</span></h1>
+        <span class="badge">100% OFFLINE VECTORIZER</span>
+      </div>
+      <nav class="navigation">
+        <a href="http://localhost:80" class="back-link">← Portal Hub</a>
+      </nav>
+    </header>
+
+    <!-- Main Workspace Split -->
+    <main class="main-split">
+      
+      <!-- Control Panel (Left Pane) -->
+      <section class="control-panel glass-card">
+        <div class="panel-section">
+          <h2>1. Upload Raster Image</h2>
+          <!-- File Drag Drop Zone -->
+          <div class="drag-drop-zone" id="drop-zone">
+            <div class="drop-zone-icon">🖼️</div>
+            <p class="drop-zone-text">Drag & drop PNG/JPG here or <span class="highlight">browse</span></p>
+            <span class="drop-zone-sub">Files are processed 100% locally</span>
+            <input type="file" id="file-input" accept="image/png, image/jpeg, image/jpg, image/webp" style="display: none;">
+          </div>
+
+          <!-- Loaded image specifications (hidden initially) -->
+          <div class="thumbnail-wrapper" id="thumbnail-wrapper" style="display: none;">
+            <div class="thumbnail-details">
+              <span id="img-name">icon.png</span>
+              <span id="img-dims">512 x 512 px</span>
+            </div>
+            <button class="btn-clear" id="btn-remove-image">❌</button>
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <h2>2. Tracing Preset</h2>
+          <div class="input-group">
+            <label for="preset-select">Configuration Preset</label>
+            <select id="preset-select">
+              <option value="default" selected>🎨 Detailed Color Logo (Smooth Splines)</option>
+              <option value="flat">🧱 Flat Color Art (Minimal Paths)</option>
+              <option value="silhouette">🌑 Monochrome Silhouette (Black & White Outline)</option>
+              <option value="posterized">🎭 High-Contrast Posterizer (Vibrant Solids)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <h2>3. Fine-Tune Parameters</h2>
+          
+          <!-- Mode Colors Count (Hidden if Monochrome preset) -->
+          <div class="slider-group" id="group-colors-count">
+            <div class="slider-header">
+              <label for="range-colors-count">Number of Colors</label>
+              <span id="val-colors-count">8 colors</span>
+            </div>
+            <input type="range" id="range-colors-count" min="2" max="32" step="1" value="8">
+          </div>
+
+          <!-- Monochrome Grayscale Threshold (Shown only if Silhouette select) -->
+          <div class="slider-group" id="group-mono-threshold" style="display: none;">
+            <div class="slider-header">
+              <label for="range-mono-threshold">Outline Threshold</label>
+              <span id="val-mono-threshold">128</span>
+            </div>
+            <input type="range" id="range-mono-threshold" min="20" max="230" step="5" value="128">
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-header">
+              <label for="range-blur-radius">Pre-Trace Blur (Smooths Edges)</label>
+              <span id="val-blur-radius">0px</span>
+            </div>
+            <input type="range" id="range-blur-radius" min="0" max="8" step="1" value="0">
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-header">
+              <label for="range-noise-filter">Noise Specks Filter</label>
+              <span id="val-noise-filter">High Cleanup</span>
+            </div>
+            <input type="range" id="range-noise-filter" min="1" max="15" step="1" value="8">
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-header">
+              <label for="range-curve-precision">Spline Precision</label>
+              <span id="val-curve-precision">High (Smooth)</span>
+            </div>
+            <input type="range" id="range-curve-precision" min="1" max="5" step="1" value="4">
+          </div>
+        </div>
+
+        <!-- Carbon Display Ad Sponsor Widget -->
+        <div class="carbon-ad-widget">
+          <div class="carbon-ad-badge">SPONSORED</div>
+          <div class="carbon-ad-content">
+            <div class="carbon-ad-image-placeholder">📐</div>
+            <div class="carbon-ad-text">
+              <strong>Unlimited SVGs?</strong> Convert files without waiting. Blazing speed client-side.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Workspace Area (Right Pane) -->
+      <section class="workspace-area">
+        <div class="workspace-card glass-card">
+          <div class="workspace-header">
+            <div class="workspace-title">
+              <span class="status-indicator active"></span>
+              <h3>Vector Workspace Viewport</h3>
+            </div>
+            
+            <div class="view-mode-tabs">
+              <button class="tab-btn active" data-tab="split">Split View</button>
+              <button class="tab-btn" data-tab="vector">Vector Only</button>
+            </div>
+          </div>
+
+          <!-- Dual Display Panels container -->
+          <div class="viewport-canvas-container" id="viewport-canvas-container">
+            
+            <!-- Placeholder before image load -->
+            <div class="editor-placeholder" id="editor-placeholder">
+              <span class="placeholder-icon">📐</span>
+              <h3>Vectorizing Workspace</h3>
+              <p>Drag any raster image into the left panel to trace it into smooth scale-free vectors 100% locally.</p>
+            </div>
+
+            <!-- Double Workspace Columns -->
+            <div class="double-viewport-split" id="double-viewport-split" style="display: none;">
+              <!-- Left Side: Source Raster -->
+              <div class="viewport-box" id="box-source-raster">
+                <div class="viewport-box-header">SOURCE RASTER PHOTO</div>
+                <div class="viewport-box-content bg-transparent-grid">
+                  <img id="source-preview" src="" alt="Source preview">
+                </div>
+              </div>
+              
+              <!-- Right Side: Live SVG Vector Output -->
+              <div class="viewport-box" id="box-traced-vector">
+                <div class="viewport-box-header">TRACED SVG VECTOR</div>
+                <div class="viewport-box-content bg-transparent-grid" id="vector-output-wrapper">
+                  <!-- The compiled dynamic SVG XML will be injected here -->
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Loading overlay when vector tracing runs -->
+            <div class="processing-overlay" id="processing-overlay" style="display: none;">
+              <div class="processing-content">
+                <div class="loader-spinner"></div>
+                <h3>Tracing outline geometries...</h3>
+                <p>Computing spline nodes and curve intersections 100% client-side...</p>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Download Action Bar -->
+          <div class="action-bar">
+            <button class="btn btn-secondary" id="btn-reset" disabled>
+              🔄 Reset Workspace
+            </button>
+            <button class="btn btn-primary btn-large" id="btn-copy-code" disabled>
+              📋 Copy Raw SVG Code
+            </button>
+            <button class="btn btn-accent btn-large" id="btn-download" disabled>
+              💾 Save SVG Vector
+            </button>
+          </div>
+        </div>
+
+        <!-- Status Details Bar -->
+        <div class="status-bar-box glass-card">
+          <div class="status-item">
+            <span class="dot green"></span>
+            <span>Vectorizer Engine: <strong>ImageTracer.js Ready</strong></span>
+          </div>
+          <div class="status-item">
+            <span>Curves Model: <strong>Adaptive Splines</strong></span>
+          </div>
+          <div class="status-item">
+            <span>Cost of server requests: <strong>$0.00 / month</strong></span>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Hidden offscreen elements for pixel analytics -->
+  <canvas id="hidden-source-canvas" style="display: none;"></canvas>
+
+  <!-- Load ImageTracer.js from jsDelivr CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/imagetracerjs@1.2.6/imagetracer_v1.2.6.js" id="imagetracer-cdn"></script>
+  <script type="module" src="./main.js"></script>
+</body>
+</html>
